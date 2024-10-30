@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="16px" viewBox="0 0 12 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>twotone-description-24px</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="twotone-description-24px" transform="translate(-3.000000, -1.000000)">
+            <polygon id="Shape" points="0 0 18 0 18 18 0 18"></polygon>
+            <polygon id="Shape" fill="#FFFFFF" fill-rule="nonzero" points="9.75 3 4.5 3 4.5 15 13.5 15 13.5 6.75 9.75 6.75"></polygon>
+            <path d="M6.61375,10.6284501 L8.01666667,11.9978769 L11.58625,8.5 L12.35,9.2537155 L8.01666667,13.5 L5.85,11.3768577 L6.61375,10.6284501 Z M10.5,1.5 L4.5,1.5 C3.675,1.5 3,2.175 3,3 L3,15 C3,15.825 3.6675,16.5 4.4925,16.5 L13.5,16.5 C14.325,16.5 15,15.825 15,15 L15,6 L10.5,1.5 Z M13.5,15 L4.5,15 L4.5,3 L9.75,3 L9.75,6.75 L13.5,6.75 L13.5,15 Z" id="Shape" fill="#FF6630" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

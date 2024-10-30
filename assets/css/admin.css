@@ -1,0 +1,318 @@
+.wc-ebiz-message {
+	overflow: auto;
+	max-height: 100px;
+}
+
+.post-type-shop_order .wp-list-table .column-wc_actions a.button.wc_ebiz_button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float: right;
+}
+
+.post-type-shop_order .wp-list-table .column-wc_actions a.button.wc_ebiz_button img {
+	margin: 0;
+	width: auto;
+	height: auto;
+	display: block;
+}
+
+#wc_ebiz_already {
+	color: #a00;
+}
+
+.wc_ebiz_options_buttons {
+	display: flex;
+	align-items: center;
+	padding-top: 5px;
+}
+
+.wc_ebiz_options_buttons #wc_ebiz_options {
+	line-height: 32px;
+	display: inline-block;
+	height: 32px;
+	margin-right: auto;
+}
+
+#wc_ebiz_options_form {
+	border-top: 1px solid #ddd;
+	margin: 0 -12px;
+	margin-top: 10px;
+}
+
+#wc_ebiz_options_form .fields {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+	margin: 0 0 5px 0;
+}
+
+#wc_ebiz_options_form h4 {
+	margin: 0 0 5px 0;
+}
+
+#wc_ebiz_options_form input[type="number"],
+#wc_ebiz_options_form input[type="text"] {
+	width: 100%;
+	margin: 0 0 5px 0;
+}
+
+#wc_ebiz_options_form .wc_ebiz_invoice_types {
+	padding-top: 5px;
+}
+
+#wc_ebiz_options_form .wc_ebiz_invoice_types label {
+	display: flex;
+	align-items: center;
+	height: 32px;
+}
+
+#wc_ebiz_options_form .wc_ebiz_invoice_types label input {
+	margin-right: 5px;
+}
+
+.wc-ebiz-nag {
+	position: relative;
+}
+
+.wc-ebiz-nag a.notice-dismiss {
+	text-decoration: none;
+}
+
+#woocommerce_wc_ebiz_wc_ebiz_vat_number_notice,
+#woocommerce_wc_ebiz_wc_ebiz_nyugta_email_text {
+	max-width: 400px;
+}
+
+.wc_ebiz_pro_version_active {
+	color: green;
+	margin: 0 0 10px 0;
+}
+
+.wc_ebiz_pro_label {
+	display: none;
+}
+
+th .wc_ebiz_pro_label,
+.wc-settings-sub-title .wc_ebiz_pro_label {
+	display: inline-block;
+	font-style: normal;
+	background: #3B4657;
+	border-radius: 3px;
+	margin-left: 5px;
+	vertical-align: middle;
+	color: #fff;
+	font-weight: normal;
+	font-size: 12px;
+	padding: 2px 5px;
+	margin-top: -3px;
+}
+
+#woocommerce_wc_ebiz_wc_ebiz_section_invoice_settings,
+#woocommerce_wc_ebiz_wc_ebiz_section_automatic,
+#woocommerce_wc_ebiz_wc_ebiz_section_vat_number,
+#woocommerce_wc_ebiz_wc_ebiz_section_nyugta,
+#woocommerce_wc_ebiz_wc_ebiz_section_other {
+	border-top: 1px solid #ccc;
+	padding-top: 20px;
+}
+
+.form-table td div.wc-ebiz-row-inputs {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.form-table td div.wc-ebiz-row-inputs label {
+	display: block;
+}
+
+.form-table td div.wc-ebiz-row-inputs div {
+	margin-right: 10px;
+}
+
+.form-table td div.wc-ebiz-row-inputs div input[type=text] {
+	width: 100%;
+	min-width: 195px;
+}
+
+/**
+ * Notices
+ */
+
+.notice.wc-ebiz-notice {
+	position: relative;
+}
+
+.wc-ebiz-notice .wc-ebiz-wait {
+	cursor: wait;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	z-index: 1000;
+	top: 0;
+	left: 0;
+}
+
+.woocommerce table.form-table .wc_ebiz_settings_payment_methods tr td {
+	color: #000;
+	padding: 0 10px;
+}
+
+.woocommerce table.form-table .wc_ebiz_settings_payment_methods tr td:nth-child(3) {
+	padding: 0;
+}
+
+.woocommerce table.form-table .wc_ebiz_settings_payment_methods tr td input[type=number] {
+	padding: 10px;
+}
+
+tr.wc-ebiz-section-pro {
+	background: #fff;
+	border: 1px solid #ddd;
+	margin: 0 0 1em 0;
+	padding: 20px;
+	display: block;
+	max-width: 1200px;
+}
+
+tr.wc-ebiz-section-pro th,
+tr.wc-ebiz-section-pro td {
+	width: 100%;
+	padding: 0;
+	display: block;
+	margin: 0;
+}
+
+tr.wc-ebiz-section-pro h3 {
+	font-size: 20px;
+	color: #28374F;
+	margin: 0 0 10px 0;
+}
+
+tr.wc-ebiz-section-pro p {
+	color: #666;
+	margin: 0;
+}
+
+.wc-ebiz-section-pro-form fieldset {
+	display: block;
+	padding-top: 20px;
+	max-width: 360px;
+}
+
+.wc-ebiz-section-pro-form fieldset .notice {
+	margin: 0 0 10px ;
+}
+
+.woocommerce table.form-table .wc-ebiz-section-pro-form fieldset input.regular-input {
+	margin: 0 0 10px 0;
+	border-radius: 3px;
+	width: 100%;
+}
+
+.wc-ebiz-section-pro-flex {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.wc-ebiz-section-pro-cta {
+	width: 360px;
+	padding-left: 20px;
+}
+
+.wc-ebiz-section-pro-cta h4 {
+	font-size: 18px;
+	color: #28374F;
+	margin: 0;
+}
+
+.wc-ebiz-section-pro-cta ul {
+	padding: 10px 0;
+	margin: 0;
+}
+
+.wc-ebiz-section-pro-cta ul li {
+	background: url(../images/icon-check.svg) no-repeat left center;
+	padding-left: 32px;
+	color: #666;
+}
+
+.wc-ebiz-section-pro-cta-button {
+	display: flex;
+	color: #666;
+	align-items: center;
+}
+
+.wc-ebiz-section-pro-cta-button a {
+	height: 40px;
+	border-radius: 5px;
+	background: #71B02F url(../images/icon-cart.svg) no-repeat 13px center;
+	font-weight: 500;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 20px 0 48px;
+	display: block;
+	line-height: 40px;
+	white-space: nowrap;
+	font-size: 16px;
+	margin: 0 20px 0 0;
+}
+
+.wc-ebiz-section-pro-cta-button span small {
+	display: block;
+	font-size: 12px;
+}
+
+.wc-ebiz-section-pro-cta-button span strong {
+	font-size: 16px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+@media only screen and (max-width: 960px) {
+	.wc-ebiz-section-pro-flex {
+		flex-wrap: wrap;
+	}
+
+	.wc-ebiz-section-pro-cta {
+		border-top: 1px solid #DDDDDD;
+		padding: 20px 20px 0 20px;
+		margin: 20px -20px 0;
+		width: 100%;
+	}
+}
+
+tr.wc-ebiz-section-pro.wc-ebiz-section-pro-active {
+	padding: 15px 20px 15px 15px;
+}
+
+tr.wc-ebiz-section-pro.wc-ebiz-section-pro-active .wc-ebiz-section-pro-flex {
+	align-items: center;
+}
+
+.wc-ebiz-section-pro-active {
+	padding: 0 20px 0 49px;
+	min-height: 30px;
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	background: url(../images/icon-active.svg) no-repeat 2px center;
+	text-align: left;
+}
+
+.wc-ebiz-section-pro-active strong {
+	color: #28374F;
+	font-size: 16px;
+}
+
+.wc-ebiz-section-pro-active small {
+	font-size: 12px;
+	color: #666;
+}
+
+tr.wc-ebiz-section-pro.wc-ebiz-section-pro-active .button-primary {
+	margin-left: auto;
+	margin-right: 15px;
+}

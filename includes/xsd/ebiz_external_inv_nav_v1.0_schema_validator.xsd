@@ -1,0 +1,863 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="EbizInvoice">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Számla sorszáma. Amennyiben nincs megadva, úgy a belső számlatömbből tép sorszámot.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="NumberOfCopies" type="xs:string"/>
+                <xs:element ref="Note" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Megjegyzés a számlához.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="H1Note">
+                    <xs:annotation>
+                        <xs:documentation>Megjegyzés első sora a fejlécbe.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="H2Note">
+                    <xs:annotation>
+                        <xs:documentation>Megjegyzés második sora a fejlécbe.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="F1Note">
+                    <xs:annotation>
+                        <xs:documentation>Megjegyzés első sora a láblécbe.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="F2Note">
+                    <xs:annotation>
+                        <xs:documentation>Megjegyzés második sora a láblécbe.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="ModifyWithoutMaster" type="xs:boolean"/>
+                <xs:element ref="InvoiceTypeCode">
+                    <xs:annotation>
+                        <xs:documentation>Számla típusa: 
+SalesInvoice - SZÁMLA 
+ProformaInvoice - DÍJBEKÉRŐ 
+StornoInvoice - SZTORNÓ SZÁMLA 
+PrepaymentInvoice - ELŐLEGSZÁMLA 
+PartialInvoice - RÉSZSZÁMLA 
+FinalInvoice - VÉGSZÁMLA 
+SummaryInvoice - GYŰJTŐSZÁMLA 
+CorrectiveInvoice - HELYESBÍTŐ SZÁMLA</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="OutputType" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Elektronikus vagy papír alapú: E - ELEKTRONIKUS / P - PAPÍR</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="DocumentCurrencyCode">
+                    <xs:annotation>
+                        <xs:documentation>Számla devizaneme</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="InvoicePeriod" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Az egész számlára vonatkozó időszak információk. Egzakt periódul is megadható a StartDate - EndDate segítségével, valamint szöveges hivatkozás is a Descripton elemben (pl. 2018. november)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="IssueDate">
+                    <xs:annotation>
+                        <xs:documentation>Számla kelte.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="IssueTime" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Számlakészítés időpontja. Módosító számlánál az IssueDate-tel együtt alkotja a módosító számla időpecsétjét</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxPointDate">
+                    <xs:annotation>
+                        <xs:documentation>Teljesítés dátuma.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="DueDate">
+                    <xs:annotation>
+                        <xs:documentation>Fizetési határidő.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="OrderReference" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Megrendelés száma. (Nem jelenik meg a számlaképen)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="BillingReference" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Több hivatkozás is átadható a BillingReference elem többszöri használatával.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PaymentMeans"/>
+                <xs:element ref="AccountigSupplierParty"/>
+                <xs:element ref="AccountigCustomerParty"/>
+                <xs:element ref="AllowanceCharge" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Kedvezmény infromációk</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PricingExchangeRate" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Árfolyaminfomrációk. Csak deviza számláknál van jelentőssége. Amennyiben HUF alapú számláról van szó, a PricingExchangeRate node teljes egészében elhagyható!</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxTotal"/>
+                <xs:element ref="LegalMonetaryTotal">
+                    <xs:annotation>
+                        <xs:documentation>Számla összesen adatok a számla devizanemében kifejezve</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" ref="InvoiceLine"/>
+                <xs:element ref="AdditionalDocumentReference" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Note" type="xs:string"/>
+    <xs:element name="H1Note" type="xs:string"/>
+    <xs:element name="H2Note" type="xs:string"/>
+    <xs:element name="F1Note" type="xs:string"/>
+    <xs:element name="F2Note" type="xs:string"/>
+    <xs:element name="InvoiceTypeCode" type="xs:string"> </xs:element>
+    <xs:element name="Contact">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="Name" minOccurs="0"/>
+                <xs:element ref="Telephone" minOccurs="0"/>
+                <xs:element ref="Telefax" minOccurs="0"/>
+                <xs:element ref="ElectronicMail" minOccurs="0"/>
+                <xs:element ref="Note" minOccurs="0"/>
+                <xs:element name="JobTitle" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Company" type="xs:string" nillable="false"/>
+    <xs:element name="Name" type="xs:string" nillable="false"/>
+    <xs:element name="Telephone" type="xs:string" nillable="true"/>
+    <xs:element name="Telefax" type="xs:string" nillable="true"/>
+    <xs:element name="ElectronicMail" type="xs:string" nillable="true"/>
+    <xs:element name="DocumentCurrencyCode" type="xs:string"/>
+    <xs:element name="IssueDate" type="xs:date"/>
+    <xs:element name="DueDate" type="xs:date"/>
+    <xs:element name="OrderReference" type="xs:string"/>
+    <xs:element name="BillingReference">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="InvoiceDocumentReference" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Hivatkozás a számlasor által módosított számla számára</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="BillingReferenceLine" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Hivakozás az eredeti számla sorára</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="InvoiceDocumentReference">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Hivatkozási szám. Ha a DocumentDescription = ORIGINAL, megjelenik a számlaképen.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="DocumentDescription" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Az eredeti számlára történő hivatkozás esetén ORIGINAL, míg az utolsó módosító okiratra történő hivatkozás esetén LAST értéket kell küldeni.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PaymentMeans">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="PaymentMeansCode">
+                    <xs:annotation>
+                        <xs:documentation>10 - KÉSZPÉNZ 
+20 - CSEKK 
+30 - ÁTUTALÁS 
+48 - BANKKÁRTYA 
+49 – CSOPORTOS BESZEDÉS 
+zB - BARTER 
+zC - KUPON 
+zG - AJÁNDÉKUTALVÁNY 
+zK - SZÉP KÁRTYA 
+zM - KOMPENZÁCIÓ 
+zO - OTP SIMPLE 
+zU - UTÁNVÉT 
+zP - PAYPAL 
+zS - PAYU 
+zV - UTALVÁNY</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PayeeFinancialAccount" minOccurs="0"/>
+                <xs:element ref="PayerFinancialAccount" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Vevőre vonatkozó bank és bankszámla információk. A magyarázatokat a PayeeFinancialAccunt alatti elemek tartalmazzák vevőre vonatkozóan.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PaymentMeansCode" type="xs:string"/>
+    <xs:element name="PaymentDueDate" type="xs:date"/>
+    <xs:element name="PayeeFinancialAccount">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="0" ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankszámlaszámának GIRO formátuma.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Name" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankszámlaszámának megnevezése /OPCIONÁLIS/</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="AccountTypeCode" minOccurs="0"/>
+                <xs:element ref="CurrencyCode" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Bankszámla devizaneme.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="FinancialInstitutionBranch" minOccurs="0"/>
+                <xs:element ref="Country" minOccurs="0"/>
+                <xs:element ref="PayeeFinancialAccountExtension" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PayerFinancialAccount">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="ID" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Vevő bankszámlaszáma</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Name" minOccurs="0"/>
+                <xs:element ref="AccountTypeCode" minOccurs="0"/>
+                <xs:element ref="CurrencyCode" minOccurs="0"/>
+                <xs:element minOccurs="0" name="FinancialInstitutionBranch">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0">
+                            <xs:element minOccurs="0" name="ID" type="xs:string"/>
+                            <xs:element minOccurs="0" name="Name" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" name="Country">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="IdentificationCode" type="xs:string"/>
+                            <xs:element name="Name" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="PayerFinancialAccountExtension" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AccountTypeCode" type="xs:string"/>
+    <xs:element name="CurrencyCode" type="xs:string"/>
+    <xs:element name="FinancialInstitutionBranch">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="0" ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankjának SWIFT kódja.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Name" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankjának neve.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PayeeFinancialAccountExtension">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="IBAN" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankszámlaszámának IBAN formátuma</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="Active"/>
+                <xs:element minOccurs="0" ref="RegisteredIdType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PayerFinancialAccountExtension" nillable="true">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="0" name="IBAN" type="xs:string"/>
+                <xs:element minOccurs="0" ref="Active"/>
+                <xs:element minOccurs="0" ref="RegisteredIdType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="IBAN" type="xs:string"/>
+    <xs:element name="Active" type="xs:boolean"/>
+    <xs:element name="RegisteredIdType" type="xs:string"/>
+    <xs:element name="WebsiteURL" type="xs:anyURI"/>
+    <xs:element name="AccountigSupplierParty">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="EndpointID" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Szállító CharlieIndia kézbesítési azonosítója.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PartyIdentification" minOccurs="0"/>
+                <xs:element minOccurs="0" ref="AdditionalAccountID">
+                    <xs:annotation>
+                        <xs:documentation>A szállító további azonosítója (belső használatra)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PartyName"/>
+                <xs:element ref="PostalAddress" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Levelezési cím. (Abban az esetben lehet érdekes, ha pl. ablakos borítékot kell címezni a számlaképen)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" ref="PartyTaxScheme">
+                    <xs:annotation>
+                        <xs:documentation>Amennyiben több adóazonosítót is szeretnénk küldeni, ennek az elemnek az ismétlésével lehet megtenni a TaxScheme elemben jelölve a típusát.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PartyLegalEntity"/>
+                <xs:element minOccurs="0" ref="Contact"/>
+                <xs:element minOccurs="0" ref="WebsiteURL"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AccountigCustomerParty">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="EndpointID" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Vevő CharlieIndia kézbesítési azonosítója.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PartyIdentification" minOccurs="0"/>
+                <xs:element minOccurs="0" ref="AdditionalAccountID"/>
+                <xs:element ref="PartyName"/>
+                <xs:element ref="PostalAddress" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="PartyTaxScheme">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="CompanyID" type="xs:string"/>
+                            <xs:element minOccurs="0" name="TaxScheme">
+                                <xs:complexType>
+                                    <xs:sequence minOccurs="0">
+                                        <xs:element minOccurs="0" name="ID" type="xs:string"/>
+                                        <xs:element minOccurs="0" name="Name" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="PartyLegalEntity"/>
+                <xs:element minOccurs="0" ref="Contact"/>
+                <xs:element minOccurs="0" ref="WebsiteURL"/>
+                <xs:element ref="DeliveryAddress" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Szállítási cím</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AllowanceCharge">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="0" ref="ChargeIndicator"/>
+                <xs:element ref="AllowanceChargeReason" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Kedvezmény oka/megnevezése</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="MultiplierFactorNumeric" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Olyan szám, amellyel a végösszeget meg kell szorozni kedvezményes végösszeg kiszámításához. Alapértelmezetten a "0"-t kérjük megadni!</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Amount" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Kedvezmény összege.  Alapértelmezetten a "0"-t kérjük megadni!</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ChargeIndicator" type="xs:boolean"/>
+    <xs:element name="MultiplierFactorNumeric" type="xs:float"/>
+    <xs:element name="Amount" type="xs:float"> </xs:element>
+    <xs:element name="PricingExchangeRate">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="SourceCurrencyCode">
+                    <xs:annotation>
+                        <xs:documentation>Forrás devizanem. Vagyis milyen devizanemről váltunk. Pl.: "EUR"</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TargetCurrencyCode">
+                    <xs:annotation>
+                        <xs:documentation>Cél devizanem. Vagyis milyen devizanemre váltunk. Alapértelmezetten "HUF"-ot kérjük megadni.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="CalculationRate">
+                    <xs:annotation>
+                        <xs:documentation>Deviza alapú számlánál az 1 egységnyi devizára eső forintérték. Pl.: 1 EUR = 380 HUF. Vagyis a kalkulációs ráta "380".</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="MathematicOperatorCode">
+                    <xs:annotation>
+                        <xs:documentation>A számítási művelet egy szorzó vagy egy osztó művelet. Alapértelmezetten "Multiplier"-t kérjük megadni.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SourceCurrencyCode" type="xs:string"/>
+    <xs:element name="TargetCurrencyCode" type="xs:string"/>
+    <xs:element name="CalculationRate" type="xs:float"/>
+    <xs:element name="MathematicOperatorCode" type="xs:string"/>
+    <xs:element name="TaxTotal">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="TaxAmount">
+                    <xs:annotation>
+                        <xs:documentation>Összesített áfa érték.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="RoundingAmount" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Összesített és kerekített áfa érték, amennyiben szükséges.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxSubtotal" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Áfa részletezés amely áfa kulcsonként és devizanemenként tartalmazhatja a különböző értékeket. Belföldi devizás értékesítés esetén itt lehet megadni a különböző áfa kulcsokhoz tartozó forintra átszámolt értékeket is.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RoundingAmount" type="xs:decimal"/>
+    <xs:element name="TaxSubtotal">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="TaxableAmount">
+                    <xs:annotation>
+                        <xs:documentation>Áfa összesítő sorához tartozó nettó érték</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxAmount">
+                    <xs:annotation>
+                        <xs:documentation>ÁFA összesítő sorához tartozó ÁFA érték</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="CurrencyID" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>A feltüntetett Áfa érték devizaneme (eltérhet a számla devizanemétől)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Percent">
+                    <xs:annotation>
+                        <xs:documentation>Áfa százalék
+27 / 18 / 5 / 0.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxCategory"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TaxableAmount" type="xs:decimal"/>
+    <xs:element name="TaxCategory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Name">
+                    <xs:annotation>
+                        <xs:documentation>Az áfa megnevezése (pl. 27% vagy AHK, TAM, Stb.)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxScheme"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="LegalMonetaryTotal">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="LineExtensionAmount"/>
+                <xs:element ref="TaxExclusiveAmount">
+                    <xs:annotation>
+                        <xs:documentation>Nettó összesen</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxInclusiveAmount">
+                    <xs:annotation>
+                        <xs:documentation>Bruttó összesen</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="PayableAmount">
+                    <xs:annotation>
+                        <xs:documentation>Fizetendő összesen. (Ez az érték eltérhet a bruttótól, ha a számla valamilyen kompenzációt tartalmaz.)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TaxExclusiveAmount" type="xs:float"/>
+    <xs:element name="TaxInclusiveAmount" type="xs:float"/>
+    <xs:element name="PayableAmount" type="xs:float"/>
+    <xs:element name="InvoiceLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Számlatétel sorszáma</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="Note"/>
+                <xs:element minOccurs="0" ref="AdditionalInformation"/>
+                <xs:element ref="InvoicedQuantity">
+                    <xs:annotation>
+                        <xs:documentation>Mennyiség</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="UnitCode">
+                    <xs:annotation>
+                        <xs:documentation>Mennyiségi egység</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="LineExtensionAmount"/>
+                <xs:element ref="TaxPointDate" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Gyűjtő számla esetében a számlasorhoz tartozó teljesítési dátum</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="InvoicePeriod" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>A számlatételhez esetlegesen tartozó időszak információk a számlafej azonos elemében részletezett módon.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="BillingReference" minOccurs="0"/>
+                <xs:element minOccurs="0" name="PaymentTerms">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="Note">
+                                <xs:annotation>
+                                    <xs:documentation>Előleg típusú sor esetén "ADVANCE" értéknek kell lenni.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="AllowanceCharge" minOccurs="0"/>
+                <xs:element ref="TaxTotal" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Az InvoiceLine elemen belül a termékdíjakat tartalmazza, azon kívül az áfa összesítést.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxAmount"/>
+                <xs:element ref="Item"/>
+                <xs:element ref="Price"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="InvoicedQuantity" type="xs:decimal"/>
+    <xs:element name="UnitCode" type="xs:string"/>
+    <xs:element name="Item">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Name">
+                    <xs:annotation>
+                        <xs:documentation>Számlatétel megnevezése</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="SellersItemIdentification" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Számlatétel termékének/szolgáltatásának szállítónál használt azonosítója (pl. cikkszám)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="ClassifiedTaxCategory"/>
+                <xs:element minOccurs="0" ref="AdditionalItemProperty" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Itt tetszőleges mennyiségű key - value párt lehet átadni, amely a további feldolgozás során fontos lehet.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="AllowanceCharge" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SellersItemIdentification" type="ID"/>
+    <xs:element name="ClassifiedTaxCategory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Percent">
+                    <xs:annotation>
+                        <xs:documentation>Áfa %</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Name">
+                    <xs:annotation>
+                        <xs:documentation>Áfa megnevezés (pl. 27%, TAM, AHK, Stb.)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Price">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="PriceAmount">
+                    <xs:annotation>
+                        <xs:documentation>Tétel: Egységár.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="BaseQuantity">
+                    <xs:annotation>
+                        <xs:documentation>Tétel: Tétel árához tartozó bázis mennyiség.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PriceAmount" type="xs:decimal"/>
+    <xs:element name="BaseQuantity" type="xs:integer"/>
+    <xs:complexType name="ID">
+        <xs:sequence minOccurs="0">
+            <xs:element ref="ID" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Számla sorszáma. Amennyiben nincs megadva, úgy a belső számlatömbből tép sorszámot.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ID" type="xs:string"/>
+    <xs:element name="Country">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="IdentificationCode">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankjának ország kódja</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Name">
+                    <xs:annotation>
+                        <xs:documentation>Szállító bankjának országa.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="IdentificationCode" type="xs:string"/>
+    <xs:element name="EndpointID" type="xs:string"/>
+    <xs:element name="PartyIdentification">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>Szállító vagy vevő valamilyen rendszerben tárolt azonosítója.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PartyName">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Name">
+                    <xs:annotation>
+                        <xs:documentation>Szállító vagy vevő neve</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PostalAddress">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="Floor" minOccurs="0"/>
+                <xs:element ref="Room" minOccurs="0"/>
+                <xs:element ref="StreetName" minOccurs="0"/>
+                <xs:element ref="AdditionalStreetName" minOccurs="0"/>
+                <xs:element ref="BlockName" minOccurs="0"/>
+                <xs:element ref="BuildingNumber" minOccurs="0"/>
+                <xs:element ref="CityName" minOccurs="0"/>
+                <xs:element ref="PostalZone" minOccurs="0"/>
+                <xs:element ref="District" minOccurs="0"/>
+                <xs:element ref="AddressLine" minOccurs="0"/>
+                <xs:element ref="Country" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DeliveryAddress">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Floor" minOccurs="0"/>
+                <xs:element ref="Room" minOccurs="0"/>
+                <xs:element ref="StreetName" minOccurs="0"/>
+                <xs:element ref="AdditionalStreetName" minOccurs="0"/>
+                <xs:element ref="BlockName" minOccurs="0"/>
+                <xs:element ref="BuildingNumber" minOccurs="0"/>
+                <xs:element ref="CityName" minOccurs="0"/>
+                <xs:element ref="PostalZone" minOccurs="0"/>
+                <xs:element ref="District" minOccurs="0"/>
+                <xs:element ref="AddressLine" minOccurs="0"/>
+                <xs:element ref="Country" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PartyTaxScheme">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CompanyID">
+                    <xs:annotation>
+                        <xs:documentation>Adószám, EU adószám vagy csoportos áfaazonosító</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="TaxScheme"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PartyLegalEntity">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="RegistrationName" type="xs:string"/>
+                <xs:element ref="CompanyID" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Cégjegyzékszám</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="RegistrationAddress">
+                    <xs:annotation>
+                        <xs:documentation>Számlázási cím (székhely)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="CompanyLegalForm" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Magánszemély / Cég megkülönböztetése:
+001 - Magánszemély (Adószám nélküli) 
+002 - Magánszemély (Adószámmal rendelkező) 
+003 - Egyéni vállalkozó 
+004 - KKT
+005 - BT
+006 - KFT
+007 - ZRT
+008 - NYRT
+009 - Egyéb</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RegistrationName" type="xs:string"/>
+    <xs:element name="RegistrationAddress">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Floor" minOccurs="0"/>
+                <xs:element ref="Room" minOccurs="0"/>
+                <xs:element ref="StreetName"/>
+                <xs:element ref="AdditionalStreetName"/>
+                <xs:element ref="BlockName" minOccurs="0"/>
+                <xs:element ref="BuildingNumber"/>
+                <xs:element ref="CityName"/>
+                <xs:element ref="PostalZone"/>
+                <xs:element ref="District" minOccurs="0"/>
+                <xs:element ref="AddressLine"/>
+                <xs:element ref="Country"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TaxAmount" type="xs:decimal"/>
+    <xs:element name="Percent" type="xs:integer"/>
+    <xs:element name="TaxScheme">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>konstans: VAT</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="Name" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="LineExtensionAmount" type="xs:float"/>
+    <xs:element name="Floor" type="xs:string"/>
+    <xs:element name="Room" type="xs:string"/>
+    <xs:element name="StreetName" type="xs:string"/>
+    <xs:element name="AdditionalStreetName" type="xs:string"/>
+    <xs:element name="BlockName" type="xs:string"/>
+    <xs:element name="BuildingNumber" type="xs:string"/>
+    <xs:element name="CityName" type="xs:string"/>
+    <xs:element name="PostalZone" type="xs:string"/>
+    <xs:element name="District" type="xs:string"/>
+    <xs:element name="AddressLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Line"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Line" type="xs:string"/>
+    <xs:element name="CompanyID" type="xs:string"/>
+    <xs:element name="CompanyLegalForm" type="xs:string"/>
+    <xs:element name="AdditionalDocumentReference">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="LanguageID" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Számla nyelve</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AdditionalItemProperty">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID">
+                    <xs:annotation>
+                        <xs:documentation>IntermediatedService értéket jelöli a közvetített szolgáltatást, ebben az esetben a Value elem értéke true kell, hogy legyen.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Name" type="xs:string"/>
+                <xs:element ref="Value"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Value" type="xs:string"/>
+    <xs:element name="AdditionalAccountID" type="xs:string"/>
+    <xs:element name="BillingReferenceLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TaxPointDate" type="xs:date"/>
+    <xs:element name="InvoicePeriod">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element minOccurs="0" name="StartDate" type="xs:date" nillable="false"/>
+                <xs:element minOccurs="0" name="EndDate" type="xs:date" nillable="false"/>
+                <xs:element minOccurs="0" name="Description" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AllowanceChargeReason" type="xs:string"/>
+    <xs:element name="IssueTime" type="xs:time"/>
+    <xs:element name="AdditionalInformation" type="xs:string"/>
+</xs:schema>
